@@ -1,0 +1,55 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Wed, 23 Aug 2023 18:47:27 +0800
+Subject: Skip when vsock module is not loaded
+
+---
+ integration_linux_test.go | 3 +++
+ internal/vsutil/vsutil.go | 5 +++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/integration_linux_test.go b/integration_linux_test.go
+index 6d7efd5..95c7299 100644
+--- a/integration_linux_test.go
++++ b/integration_linux_test.go
+@@ -217,6 +217,8 @@ func TestIntegrationConnDialNoListener(t *testing.T) {
+ 			skipOldKernel(t)
+ 		}
+ 
++		vsutil.SkipDeviceError(t, err)
++
+ 		want := &net.OpError{
+ 			Op:   "dial",
+ 			Net:  "vsock",
+@@ -236,6 +238,7 @@ func TestIntegrationFileListenerOK(t *testing.T) {
+ 	// works specifically for AF_VSOCK.
+ 	fd, err := unix.Socket(unix.AF_VSOCK, unix.SOCK_STREAM, 0)
+ 	if err != nil {
++		vsutil.SkipDeviceError(t, err)
+ 		t.Fatalf("failed to open socket: %v", err)
+ 	}
+ 
+diff --git a/internal/vsutil/vsutil.go b/internal/vsutil/vsutil.go
+index f98a7d9..5b756b2 100644
+--- a/internal/vsutil/vsutil.go
++++ b/internal/vsutil/vsutil.go
+@@ -2,8 +2,10 @@
+ package vsutil
+ 
+ import (
++	"errors"
+ 	"net"
+ 	"os"
++	"golang.org/x/sys/unix"
+ 	"testing"
+ 
+ 	"github.com/mdlayher/vsock"
+@@ -42,6 +44,9 @@ func SkipDeviceError(t *testing.T, err error) {
+ 	if os.IsPermission(err) {
+ 		t.Skipf("skipping, permission denied (try: 'chmod 666 /dev/vsock'): %v", err)
+ 	}
++	if errors.Is(err, unix.EAFNOSUPPORT) {
++		t.Skipf("skipping, vsock kernel module isn't loaded: %v", err)
++	}
+ }
+ 
+ // SkipHostIntegration skips this test if this machine is a host and cannot

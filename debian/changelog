@@ -1,5 +1,53 @@
-template-repository (1.0-1) unstable; urgency=medium
+golang-github-mdlayher-vsock (1.2.1-2) unstable; urgency=medium
 
-  * Initial release
+  * Refactor 000-skip-vsock-tests.patch.
+    Use vsutil.SkipDeviceError to simplify the code
+  * Backport patch to check errors on different kernels
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Shengjing Zhu <zhsj@debian.org>  Wed, 23 Aug 2023 18:56:57 +0800
+
+golang-github-mdlayher-vsock (1.2.1-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream release
+  * Add missing golang-golang-x-sync-dev dependency
+  * Bump minimum required golang-github-mdlayher-socket-dev version to 0.4.1
+  * Bump Standards-Version to 4.6.2 (no changes)
+
+ -- Daniel Swarbrick <dswarbrick@debian.org>  Tue, 27 Jun 2023 07:40:07 +0000
+
+golang-github-mdlayher-vsock (1.2.0-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream release
+  * Bump minimum required Go version to 1.18 in accordance with upstream
+    release notes
+  * Bump minimum required golang-github-mdlayher-socket-dev to 0.4.0
+  * Bump Standards-Version to 4.6.1 (no changes)
+
+ -- Daniel Swarbrick <dswarbrick@debian.org>  Tue, 13 Dec 2022 03:43:18 +0000
+
+golang-github-mdlayher-vsock (1.1.1-1) unstable; urgency=medium
+
+  * New upstream version
+  * d/control:
+    - Add myself to Uploaders
+    - Update Build-Depends and Depends
+  * Update d/copyright
+  * Update d/watch to track releases
+  * Add a patch to skip rather than fail vsock tests if the
+    vsock kernel module isn't loaded
+
+ -- Mathias Gibbens <mathias@calenhad.com>  Thu, 28 Apr 2022 11:34:57 +0000
+
+golang-github-mdlayher-vsock (0.0~git20210303.10d5918-2) unstable; urgency=medium
+
+  * Source-only upload for testing migration
+
+ -- Shengjing Zhu <zhsj@debian.org>  Sat, 06 Nov 2021 16:31:49 +0800
+
+golang-github-mdlayher-vsock (0.0~git20210303.10d5918-1) unstable; urgency=medium
+
+  * Initial release (Closes: #996267)
+
+ -- Shengjing Zhu <zhsj@debian.org>  Wed, 13 Oct 2021 02:20:35 +0800

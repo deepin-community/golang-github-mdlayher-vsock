@@ -1,0 +1,3 @@
+0001-Skip-when-vsock-module-is-not-loaded.patch
+0002-vsock-check-for-ECONNRESET-and-ENODEV-in-failed-Dial.patch
+0003-check-ENETUNREACH-and-ETIMEDOUT-too.patch

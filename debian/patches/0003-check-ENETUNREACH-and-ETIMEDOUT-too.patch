@@ -1,0 +1,22 @@
+From: Shengjing Zhu <zhsj@debian.org>
+Date: Wed, 23 Aug 2023 18:52:17 +0800
+Subject: check ENETUNREACH and ETIMEDOUT too
+
+---
+ integration_linux_test.go | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/integration_linux_test.go b/integration_linux_test.go
+index 36f35b6..58c76fe 100644
+--- a/integration_linux_test.go
++++ b/integration_linux_test.go
+@@ -225,7 +225,8 @@ func TestIntegrationConnDialNoListener(t *testing.T) {
+ 
+ 		// Expect one of ECONNRESET or ENODEV depending on the kernel.
+ 		switch {
+-		case errors.Is(got.Err, unix.ECONNRESET), errors.Is(got.Err, unix.ENODEV):
++		case errors.Is(got.Err, unix.ECONNRESET), errors.Is(got.Err, unix.ENODEV),
++			errors.Is(got.Err, unix.ENETUNREACH), errors.Is(got.Err, unix.ETIMEDOUT):
+ 			// OK.
+ 		default:
+ 			t.Fatalf("unexpected syscall error: %v", got.Err)
